@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with Vectornator (http://vectornator.io/) -->
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 850.5 567" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<path d="M140 100L580 420L140 420L140 100Z" id="Fill"/>
+<filter color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse" height="345" id="Filter" width="465" x="127.5" y="87.5">
+<feDropShadow dx="0" dy="0" flood-color="#000000" flood-opacity="0.333" in="SourceGraphic" result="Shadow" stdDeviation="5"/>
+</filter>
+<filter color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse" height="159" id="Filter_2" width="159" x="280.5" y="100.5">
+<feDropShadow dx="0" dy="0" flood-color="#000000" flood-opacity="0.333" in="SourceGraphic" result="Shadow" stdDeviation="5"/>
+</filter>
+</defs>
+<g id="图层-1">
+<g opacity="1">
+<use fill="#3395ff" fill-rule="nonzero" filter="url(#Filter)" stroke="none" xlink:href="#Fill"/>
+<clipPath clip-rule="nonzero" id="ClipPath">
+<use xlink:href="#Fill"/>
+</clipPath>
+<g clip-path="url(#ClipPath)">
+<path d="M72.6344 398.087L225.464 297.899L316.737 372.191L143.53 509.737L72.6344 398.087Z" fill="#46ef80" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M102.776 316.578L241.596 238.465L189.803 184.975L102.776 316.578Z" fill="#4a46ef" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M381.265 252.899L291.69 277.946L455.557 367.521L475.934 316.578L381.265 252.899Z" fill="#efee46" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M524.394 420C524.394 388.685 549.779 363.3 581.094 363.3C612.408 363.3 637.794 388.685 637.794 420C637.794 451.315 612.408 476.7 581.094 476.7C549.779 476.7 524.394 451.315 524.394 420Z" fill="none" opacity="1" stroke="#000000" stroke-linecap="butt" stroke-linejoin="round" stroke-width="3"/>
+</g>
+</g>
+<path d="M300 180C300 146.863 326.863 120 360 120C393.137 120 420 146.863 420 180C420 213.137 393.137 240 360 240C326.863 240 300 213.137 300 180Z" fill="none" filter="url(#Filter_2)" stroke="#f5891d" stroke-linecap="butt" stroke-linejoin="round" stroke-width="14"/>
+<path d="M360 180L360 400" fill="none" opacity="1" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+<path d="M360 180L465.765 255.546" fill="none" opacity="1" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+<path d="M360 400L465.765 255.546" fill="none" opacity="1" stroke="#000000" stroke-dasharray="10.0" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+<path d="M450.342 244.53L440 260" fill="none" opacity="1" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+<path d="M454.703 270.655L440 260" fill="none" opacity="1" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+<path d="M369.426 380.718C370.282 380.084 371.404 381.05 370.905 381.99L360.569 401.465C360.189 402.181 359.158 402.17 358.793 401.446L348.919 381.848C348.445 380.907 349.56 379.967 350.407 380.594L359.405 387.257C359.758 387.519 360.242 387.519 360.595 387.257L369.426 380.718Z" fill="#000000" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M455.279 236.854C455.205 235.791 456.622 235.364 457.147 236.291L468.01 255.476C468.41 256.182 467.847 257.045 467.039 256.964L445.206 254.753C444.158 254.647 443.965 253.201 444.949 252.824L455.405 248.819C455.816 248.662 456.075 248.254 456.045 247.816L455.279 236.854Z" fill="#000000" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M354.33 179.766C354.33 176.634 356.869 174.096 360 174.096C363.131 174.096 365.67 176.634 365.67 179.766C365.67 182.897 363.131 185.436 360 185.436C356.869 185.436 354.33 182.897 354.33 179.766Z" fill="#000000" fill-rule="nonzero" opacity="1" stroke="none"/>
+<g/>
+<text fill="#000000" font-family="Helvetica" font-size="35" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 320 280)" x="0" y="0">
+<tspan textLength="27.2241" x="0" y="32.2007"><![CDATA[G]]></tspan>
+</text>
+<path d="M331.65 180.075C331.65 164.418 344.343 151.725 360 151.725C375.657 151.725 388.35 164.418 388.35 180.075C388.35 195.732 375.657 208.425 360 208.425C344.343 208.425 331.65 195.732 331.65 180.075Z" fill="none" opacity="1" stroke="#000000" stroke-linecap="butt" stroke-linejoin="round" stroke-width="3"/>
+</g>
+</svg>

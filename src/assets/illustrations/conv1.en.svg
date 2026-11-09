@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with Vectornator (http://vectornator.io/) -->
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 850.5 283.5" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs/>
+<g id="图层-1">
+<path d="M42.525 56.7L212.625 56.7L212.625 226.8L42.525 226.8L42.525 56.7Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M269.325 56.7L439.425 56.7L439.425 226.8L269.325 226.8L269.325 56.7Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M326.025 56.7L326.025 226.8" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M382.725 56.7L382.725 226.8" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M99.225 56.7L99.225 226.8" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M155.925 56.7L155.925 226.8" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M212.625 113.4L42.525 113.4" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M439.425 113.4L269.325 113.4" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M439.425 170.1L269.325 170.1" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M212.625 170.1L42.525 170.1" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<text fill="#151516" font-family="Menlo-Regular" font-size="50" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 225.95 110.848)" x="0" y="0">
+<tspan textLength="30.1025" x="0" y="46.4111"><![CDATA[*]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="50" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 453.6 110.849)" x="0" y="0">
+<tspan textLength="30.1025" x="0" y="46.4111"><![CDATA[=]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 496.125 83.6325)" x="0" y="0">
+<tspan textLength="255.872" x="0" y="23.2056"><![CDATA[200×1+210×2+230×1]]></tspan>
+<tspan textLength="270.923" x="0" y="52.3071"><![CDATA[+170×0+175×0+185×0]]></tspan>
+<tspan textLength="316.077" x="0" y="81.4087"><![CDATA[+0×(-1)+0×(-2)+0×(-1)]]></tspan>
+<tspan textLength="60.2051" x="0" y="110.51"><![CDATA[=850]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 48.195 70.875)" x="0" y="0">
+<tspan textLength="45.1538" x="0" y="23.2056"><![CDATA[200]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 48.195 127.575)" x="0" y="0">
+<tspan textLength="45.1538" x="0" y="23.2056"><![CDATA[170]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 104.895 70.875)" x="0" y="0">
+<tspan textLength="45.1538" x="0" y="23.2056"><![CDATA[210]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 104.895 127.575)" x="0" y="0">
+<tspan textLength="45.1538" x="0" y="23.2056"><![CDATA[175]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 161.595 70.875)" x="0" y="0">
+<tspan textLength="45.1538" x="0" y="23.2056"><![CDATA[230]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 161.595 127.575)" x="0" y="0">
+<tspan textLength="45.1538" x="0" y="23.2056"><![CDATA[185]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 177.188 184.275)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[0]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 120.487 184.275)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[0]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 63.7875 184.275)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[0]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 290.587 127.575)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[0]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 347.287 127.575)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[0]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 403.987 127.575)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[0]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 403.987 70.875)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[1]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 347.287 70.875)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[2]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 290.587 70.875)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[1]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 395.483 184.275)" x="0" y="0">
+<tspan textLength="30.1025" x="0" y="23.2056"><![CDATA[-1]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 338.782 184.275)" x="0" y="0">
+<tspan textLength="30.1025" x="0" y="23.2056"><![CDATA[-2]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 282.082 184.275)" x="0" y="0">
+<tspan textLength="30.1025" x="0" y="23.2056"><![CDATA[-1]]></tspan>
+</text>
+</g>
+</svg>

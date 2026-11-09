@@ -1,0 +1,19 @@
+{
+  "source": "mnist_weights.h5",
+  "sourceSha256": "8ce46343a4e796f10cff09ee1e0cd8da93da4d3b37eaec0f46ba58a6c4dff5ef",
+  "weightsSha256": "c21d8a171d2dfdeb89d2b127bd55758bcf0c2ce1fb0e28c2e75db50c8d991f5e",
+  "inputShape": [
+    null,
+    28,
+    28,
+    1
+  ],
+  "outputShape": [
+    null,
+    10
+  ],
+  "preprocessing": "28x28 grayscale, white strokes on black background, divide pixel values by 255",
+  "inferenceWeightBytes": 1686568,
+  "inferenceParameters": 421642,
+  "training": "Not retrained. Original inference tensors copied exactly; optimizer state omitted."
+}

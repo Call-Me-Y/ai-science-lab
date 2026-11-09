@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with Vectornator (http://vectornator.io/) -->
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 623.7 708.75" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs/>
+<g id="图层-1">
+<text fill="#151516" font-family="Menlo-Regular" font-size="50" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 297.108 209.79)" x="0" y="0">
+<tspan textLength="30.1025" x="0" y="46.4111"><![CDATA[*]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="50" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 297.108 466.074)" x="0" y="0">
+<tspan textLength="30.1025" x="0" y="46.4111"><![CDATA[=]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 34.9014 537.282)" x="0" y="0">
+<tspan textLength="541.846" x="0" y="23.2056"><![CDATA[200×(1+1+0)+210×(0+2-1)+230×(-1+1+0)]]></tspan>
+<tspan textLength="556.897" x="0" y="52.3071"><![CDATA[+170×(2+0-1)+175×(0+0+5)+185×(-2+0-1)]]></tspan>
+<tspan textLength="466.589" x="0" y="81.4087"><![CDATA[+0×(1-1+0)+0×(0-2-1)+0×(-1-1+0)]]></tspan>
+<tspan textLength="75.2563" x="0" y="110.51"><![CDATA[=1100]]></tspan>
+</text>
+<path d="M226.8 28.35L396.9 28.35L396.9 198.45L226.8 198.45L226.8 28.35Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M283.5 28.35L283.5 198.45" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M340.2 28.35L340.2 198.45" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M396.9 85.05L226.8 85.05" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M396.9 141.75L226.8 141.75" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 232.47 42.525)" x="0" y="0">
+<tspan textLength="45.1538" x="0" y="23.2056"><![CDATA[200]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 232.47 99.225)" x="0" y="0">
+<tspan textLength="45.1538" x="0" y="23.2056"><![CDATA[170]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 289.17 42.525)" x="0" y="0">
+<tspan textLength="45.1538" x="0" y="23.2056"><![CDATA[210]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 289.17 99.225)" x="0" y="0">
+<tspan textLength="45.1538" x="0" y="23.2056"><![CDATA[175]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 345.87 42.525)" x="0" y="0">
+<tspan textLength="45.1538" x="0" y="23.2056"><![CDATA[230]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 345.87 99.225)" x="0" y="0">
+<tspan textLength="45.1538" x="0" y="23.2056"><![CDATA[185]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 361.462 155.925)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[0]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 304.762 155.925)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[0]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 248.062 155.925)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[0]]></tspan>
+</text>
+<path d="M226.8 283.5L396.9 283.5L396.9 453.6L226.8 453.6L226.8 283.5Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M283.5 283.5L283.5 453.6" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M340.2 283.5L340.2 453.6" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M396.9 340.2L226.8 340.2" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M396.9 396.9L226.8 396.9" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 248.062 354.375)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[0]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 304.762 354.375)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[0]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 361.462 354.375)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[0]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 361.462 297.675)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[1]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 304.762 297.675)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[2]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 248.062 297.675)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[1]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 352.958 411.075)" x="0" y="0">
+<tspan textLength="30.1025" x="0" y="23.2056"><![CDATA[-1]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 296.257 411.075)" x="0" y="0">
+<tspan textLength="30.1025" x="0" y="23.2056"><![CDATA[-2]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 239.558 411.075)" x="0" y="0">
+<tspan textLength="30.1025" x="0" y="23.2056"><![CDATA[-1]]></tspan>
+</text>
+<path d="M28.35 283.5L198.45 283.5L198.45 453.6L28.35 453.6L28.35 283.5Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M85.05 283.5L85.05 453.6" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M141.75 283.5L141.75 453.6" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M198.45 340.2L28.35 340.2" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M198.45 396.9L28.35 396.9" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 106.312 354.375)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[0]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 106.312 297.675)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[0]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 106.312 411.075)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[0]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 49.6125 411.075)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[1]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 49.6125 354.375)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[2]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 49.6125 297.675)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[1]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 154.508 411.075)" x="0" y="0">
+<tspan textLength="30.1025" x="0" y="23.2056"><![CDATA[-1]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 154.507 354.375)" x="0" y="0">
+<tspan textLength="30.1025" x="0" y="23.2056"><![CDATA[-2]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 154.507 297.675)" x="0" y="0">
+<tspan textLength="30.1025" x="0" y="23.2056"><![CDATA[-1]]></tspan>
+</text>
+<path d="M425.25 283.5L595.35 283.5L595.35 453.6L425.25 453.6L425.25 283.5Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M481.95 283.5L481.95 453.6" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M538.65 283.5L538.65 453.6" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M595.35 340.2L425.25 340.2" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M595.35 396.9L425.25 396.9" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 503.212 354.375)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[5]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 559.912 297.675)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[0]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 446.512 297.675)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[0]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 446.512 411.075)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[0]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 559.912 411.075)" x="0" y="0">
+<tspan textLength="15.0513" x="0" y="23.2056"><![CDATA[0]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 551.408 354.375)" x="0" y="0">
+<tspan textLength="30.1025" x="0" y="23.2056"><![CDATA[-1]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 494.707 411.075)" x="0" y="0">
+<tspan textLength="30.1025" x="0" y="23.2056"><![CDATA[-1]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 494.707 297.675)" x="0" y="0">
+<tspan textLength="30.1025" x="0" y="23.2056"><![CDATA[-1]]></tspan>
+</text>
+<text fill="#151516" font-family="Menlo-Regular" font-size="25" opacity="1" stroke="none" text-anchor="start" transform="matrix(1 0 0 1 438.007 354.375)" x="0" y="0">
+<tspan textLength="30.1025" x="0" y="23.2056"><![CDATA[-1]]></tspan>
+</text>
+</g>
+</svg>
