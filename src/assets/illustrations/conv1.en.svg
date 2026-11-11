@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Created with Vectornator (http://vectornator.io/) -->
-<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 850.5 283.5" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;background:transparent;" version="1.1" viewBox="0 0 850.5 283.5" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <defs/>
 <g id="图层-1">
-<path d="M42.525 56.7L212.625 56.7L212.625 226.8L42.525 226.8L42.525 56.7Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
-<path d="M269.325 56.7L439.425 56.7L439.425 226.8L269.325 226.8L269.325 56.7Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
+<path d="M42.525 56.7L212.625 56.7L212.625 226.8L42.525 226.8L42.525 56.7Z" fill="none" fill-rule="nonzero" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5" data-transparent-background="true"/>
+<path d="M269.325 56.7L439.425 56.7L439.425 226.8L269.325 226.8L269.325 56.7Z" fill="none" fill-rule="nonzero" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5" data-transparent-background="true"/>
 <path d="M326.025 56.7L326.025 226.8" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
 <path d="M382.725 56.7L382.725 226.8" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>
 <path d="M99.225 56.7L99.225 226.8" fill="none" opacity="1" stroke="#151516" stroke-linecap="butt" stroke-linejoin="round" stroke-width="5"/>

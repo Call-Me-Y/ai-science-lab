@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import { computed, onDeactivated, onMounted, ref } from 'vue'
 import { renderCopy } from '../../lib/copy'
+import FiniteNumberInput from './FiniteNumberInput.vue'
+import { parseKernel } from '../../lib/numeric-input.mjs'
 const props=defineProps<{locale:'zh'|'en';copy:Record<string,string>}>()
 const emit=defineEmits<{complete:[]}>()
 const canvas=ref<HTMLCanvasElement|null>(null)
-const kernels=ref([[-1,0,1,-2,0,2,-1,0,1],[-1,-2,-1,0,0,0,1,2,1],[0,-1,0,-1,5,-1,0,-1,0]])
+const kernels=ref<(number|string)[][]>([[-1,0,1,-2,0,2,-1,0,1],[-1,-2,-1,0,0,0,1,2,1],[0,-1,0,-1,5,-1,0,-1,0]])
 const color=ref('#ffffff')
 const ink=ref(false)
 const error=ref(false)
+const rangeError=ref(false)
+const parsedKernels=computed(()=>kernels.value.map(parseKernel))
+const validKernels=computed(()=>parsedKernels.value.every(kernel=>kernel!==null))
+const numericText=computed(()=>props.locale==='zh'?{invalid:'请完成所有卷积核数值输入，可使用负数和小数。',overflow:'卷积结果超出数值范围，请减小卷积核数值。'}:{invalid:'Complete all kernel values; negatives and decimals are allowed.',overflow:'The convolution overflowed. Use smaller kernel values.'})
 const responses=ref<number[][]|null>(null)
 const pooled=ref<number[]|null>(null)
 let drawing=false
@@ -19,25 +25,28 @@ const ui=(key:string)=>renderCopy(props.copy,key)
 const extrema=computed(()=>pooled.value?[Math.min(...pooled.value),Math.max(...pooled.value)]:[0,0])
 function ctx(){return canvas.value?.getContext('2d')}
 function initialize(){const c=ctx();if(c){c.fillStyle='#000';c.fillRect(0,0,280,280);c.lineWidth=18;c.lineCap='round';c.lineJoin='round'}}
-function invalidate(){responses.value=null;pooled.value=null}
+function invalidate(){responses.value=null;pooled.value=null;rangeError.value=false}
 function position(e:PointerEvent):[number,number]{const rect=canvas.value!.getBoundingClientRect();return[(e.clientX-rect.left)*280/rect.width,(e.clientY-rect.top)*280/rect.height]}
 function start(e:PointerEvent){if(e.pointerType==='mouse'&&e.button!==0)return;e.preventDefault();canvas.value!.setPointerCapture(e.pointerId);drawing=true;previous=position(e);const c=ctx();if(c){c.fillStyle=color.value;c.strokeStyle=color.value;c.beginPath();c.arc(previous[0],previous[1],9,0,Math.PI*2);c.fill()}ink.value=true;error.value=false;invalidate()}
 function draw(e:PointerEvent){if(!drawing||!previous)return;const next=position(e),c=ctx();if(c){c.beginPath();c.moveTo(...previous);c.lineTo(...next);c.stroke()}previous=next}
 function stop(){drawing=false;previous=null}
 function clear(){stop();initialize();ink.value=false;error.value=false;invalidate()}
 function example(){clear();const c=ctx();if(!c)return;const strokes=[{color:palette[1],a:[70,45],b:[70,235]},{color:palette[2],a:[45,140],b:[235,140]},{color:palette[3],a:[100,55],b:[230,225]}];for(const s of strokes){c.strokeStyle=s.color;c.beginPath();c.moveTo(s.a[0],s.a[1]);c.lineTo(s.b[0],s.b[1]);c.stroke()}ink.value=true}
-function convolve(input:number[],kernel:number[]){return Array.from({length:784},(_,i)=>{const x=i%28,y=Math.floor(i/28);let sum=0;for(let ky=0;ky<3;ky++)for(let kx=0;kx<3;kx++){const xx=x+kx-1,yy=y+ky-1;if(xx>=0&&xx<28&&yy>=0&&yy<28)sum+=input[yy*28+xx]*(Number(kernel[ky*3+kx])||0)}return sum})}
+function convolve(input:number[],kernel:number[]){return Array.from({length:784},(_,i)=>{const x=i%28,y=Math.floor(i/28);let sum=0;for(let ky=0;ky<3;ky++)for(let kx=0;kx<3;kx++){const xx=x+kx-1,yy=y+ky-1;if(xx>=0&&xx<28&&yy>=0&&yy<28)sum+=input[yy*28+xx]*kernel[ky*3+kx]}return sum})}
 function compute(){
+  if(!validKernels.value){invalidate();return}
   if(!ink.value){error.value=true;return}
   const mini=document.createElement('canvas');mini.width=mini.height=28
   const c=mini.getContext('2d')!;c.drawImage(canvas.value!,0,0,28,28)
   const image=c.getImageData(0,0,28,28).data
   const planes=channels.map((_,channel)=>Array.from({length:784},(_,i)=>image[i*4+channel]))
-  const features=planes.map((plane,i)=>convolve(plane,kernels.value[i]))
-  const combined=Array.from({length:784},(_,i)=>Math.max(0,features[0][i]+features[1][i]+features[2][i]))
+  const features=planes.map((plane,i)=>convolve(plane,parsedKernels.value[i]!))
+  const sums=Array.from({length:784},(_,i)=>features[0][i]+features[1][i]+features[2][i])
+  if(!features.every(plane=>plane.every(Number.isFinite))||!sums.every(Number.isFinite)){invalidate();rangeError.value=true;return}
+  const combined=sums.map(value=>Math.max(0,value))
   responses.value=features
   pooled.value=Array.from({length:196},(_,i)=>{const x=(i%14)*2,y=Math.floor(i/14)*2;return Math.max(combined[y*28+x],combined[y*28+x+1],combined[(y+1)*28+x],combined[(y+1)*28+x+1])})
-  error.value=false;emit('complete')
+  rangeError.value=false;error.value=false;emit('complete')
 }
 function shade(value:number){const n=Math.round(Math.min(255,Math.max(0,value)));return `rgb(${n},${n},${n})`}
 onDeactivated(stop)
@@ -50,8 +59,10 @@ onMounted(initialize)
       <div class="image-panel"><div class="panel-heading"><span>{{text.input}}</span><small>28 × 28</small></div><div class="image-box"><canvas ref="canvas" width="280" height="280" :aria-label="text.input" @pointerdown="start" @pointermove="draw" @pointerup="stop" @pointercancel="stop" @lostpointercapture="stop"></canvas><span v-if="!ink" class="drawing-placeholder">{{text.draw}}<span>✎</span></span></div><div class="palette" role="group" :aria-label="locale==='zh'?'画笔颜色':'Brush color'"><button v-for="(value,i) in palette" :key="value" type="button" :style="{background:value}" :class="{chosen:color===value}" :aria-label="text.colors[i]" :aria-pressed="color===value" @click="color=value"></button></div></div>
       <div class="image-panel"><div class="panel-heading"><span>{{text.result}}</span><small>14 × 14</small></div><div class="image-box"><svg v-if="pooled" viewBox="0 0 14 14" role="img" :aria-label="text.result" shape-rendering="crispEdges"><rect v-for="(value,i) in pooled" :key="i" :x="i%14" :y="Math.floor(i/14)" width="1" height="1" :fill="shade(value)"/></svg><div v-else class="empty-output">{{text.empty}}</div></div></div>
     </div>
-    <div class="kernel-panels"><div v-for="(kernel,k) in kernels" :key="k" class="kernel-panel"><div class="kernel-heading"><span v-html="ui(`multiKernel.kernel${k+1}`)"></span><span class="channel-badge" :class="`channel-${k}`">{{channels[k]}}</span></div><div class="kernel-grid"><input v-for="(_,i) in kernel" :key="i" v-model.number="kernels[k][i]" type="number" step="any" :aria-label="`${text.kernel} ${k+1}, ${Math.floor(i/3)+1}, ${i%3+1}`" @input="invalidate"/></div><svg v-if="responses" class="feature-map" viewBox="0 0 28 28" role="img" :aria-label="`${channels[k]} ${text.channel}`" shape-rendering="crispEdges"><rect v-for="(value,i) in responses[k]" :key="i" :x="i%28" :y="Math.floor(i/28)" width="1" height="1" :fill="shade(value)"/></svg></div></div>
-    <div class="lab-toolbar"><button type="button" class="compute-button" @click="compute" v-html="ui('multiKernel.compute')"></button><button type="button" @click="clear" v-html="ui('multiKernel.clear')"></button><button type="button" @click="example">{{text.example}}</button></div>
+    <div class="kernel-panels"><div v-for="(kernel,k) in kernels" :key="k" class="kernel-panel"><div class="kernel-heading"><span v-html="ui(`multiKernel.kernel${k+1}`)"></span><span class="channel-badge" :class="`channel-${k}`">{{channels[k]}}</span></div><div class="kernel-grid"><FiniteNumberInput v-for="(_,i) in kernel" :key="i" v-model="kernels[k][i]" :locale="locale" :label="`${text.kernel} ${k+1}, ${Math.floor(i/3)+1}, ${i%3+1}`" @update:model-value="invalidate"/></div><svg v-if="responses" class="feature-map" viewBox="0 0 28 28" role="img" :aria-label="`${channels[k]} ${text.channel}`" shape-rendering="crispEdges"><rect v-for="(value,i) in responses[k]" :key="i" :x="i%28" :y="Math.floor(i/28)" width="1" height="1" :fill="shade(value)"/></svg></div></div>
+    <div class="lab-toolbar"><button type="button" class="compute-button" :disabled="!validKernels" @click="compute" v-html="ui('multiKernel.compute')"></button><button type="button" @click="clear" v-html="ui('multiKernel.clear')"></button><button type="button" @click="example">{{text.example}}</button></div>
+    <p v-if="!validKernels" class="input-error" role="status">{{numericText.invalid}}</p>
+    <p v-if="rangeError" class="input-error" role="status">{{numericText.overflow}}</p>
     <p v-if="error" class="input-error" role="status">{{text.blank}}</p>
     <p v-if="pooled" class="lab-result">{{text.range}} <strong>{{extrema[0].toFixed(1)}} → {{extrema[1].toFixed(1)}}</strong></p>
     <p class="lab-hint">{{text.note}}</p>

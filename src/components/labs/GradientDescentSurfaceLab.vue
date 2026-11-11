@@ -1,57 +1,82 @@
 <script setup lang="ts">
-import {computed,onBeforeUnmount,onDeactivated,ref} from 'vue'
+import {computed,ref,watch} from 'vue'
 import {renderCopy} from '../../lib/copy'
-const props=defineProps<{locale:'zh'|'en';copy:Record<string,string>}>()
+import {functions2D,MAX_LEARNING_RATE,evaluate,derivative} from '../../lib/gradient-functions.mjs'
+import {usePlotGesture} from '../../lib/usePlotGesture'
+import {useDescentRun} from '../../lib/useDescentRun'
+import PlotToolbar from './PlotToolbar.vue'
+import './gradient-lab.css'
+const props=defineProps<{locale:'zh'|'en',copy:Record<string,string>}>()
 const emit=defineEmits<{complete:[]}>()
-const eta=ref(0.1),iterations=ref(80),initialX=ref(2.6),initialY=ref(-2),visible=ref(0),running=ref(false)
-const points=ref<{x:number;y:number;z:number}[]>([])
-let frame=0
+const selected=ref(functions2D[0].id)
+const objective=computed(()=>functions2D.find(item=>item.id===selected.value)!)
+const eta=ref(objective.value.rate),iterations=ref(objective.value.iterations),initialX=ref(objective.value.initial[0]),initialY=ref(objective.value.initial[1])
+const plot=usePlotGesture('orbit'),{svg}=plot
+const run=useDescentRun(()=>objective.value,()=>emit('complete'))
 const ui=(key:string,params:Record<string,string|number>={})=>renderCopy(props.copy,key,params)
-const f=(x:number,y:number)=>x*x+2*y*y
-const project=(x:number,y:number,z:number)=>({x:380+(x-y)*52,y:355+(x+y)*20-z*7})
-const line=(values:{x:number;y:number;z:number}[])=>values.map((v,i)=>{const p=project(v.x,v.y,v.z);return `${i?'L':'M'} ${p.x} ${p.y}`}).join(' ')
-const grid=Array.from({length:25},(_,i)=>{
- const fixed=-3+i/4
- return [line(Array.from({length:61},(_,j)=>{const t=-3+j/10;return {x:fixed,y:t,z:f(fixed,t)}})),line(Array.from({length:61},(_,j)=>{const t=-3+j/10;return {x:t,y:fixed,z:f(t,fixed)}}))]
-}).flat()
-const shown=computed(()=>points.value.slice(0,visible.value))
-const trail=computed(()=>line(shown.value))
-const last=computed(()=>shown.value.at(-1)??{x:initialX.value,y:initialY.value,z:f(initialX.value,initialY.value)})
-const ball=computed(()=>project(last.value.x,last.value.y,last.value.z))
-const success=computed(()=>points.value.length>0&&last.value.z<0.01&&!running.value)
-const extra=computed(()=>props.locale==='zh'?{iterations:'迭代次数',origin:'初始位置',result:'当前函数值',ready:'调整初始位置，寻找曲面的最低点。',done:'已到达最低点附近',progress:'正在优化…',again:'可继续调整参数，观察收敛情况。'}:{iterations:'Iterations',origin:'Initial position',result:'Current function value',ready:'Choose a starting position and find the bottom of the surface.',done:'Reached the minimum region',progress:'Optimizing…',again:'Adjust the parameters to explore convergence.'})
-function start(){
- cancelAnimationFrame(frame);let x=initialX.value,y=initialY.value;const path=[{x,y,z:f(x,y)}]
- for(let i=0;i<iterations.value;i++){x-=eta.value*2*x;y-=eta.value*4*y;path.push({x,y,z:f(x,y)});if(f(x,y)<1e-9)break}
- points.value=path;visible.value=1;running.value=true;let beginning=0
- const step=(time:number)=>{if(!beginning)beginning=time;visible.value=Math.min(path.length,1+Math.floor((time-beginning)/1500*(path.length-1)));if(visible.value<path.length)frame=requestAnimationFrame(step);else{running.value=false;if(success.value)emit('complete')}}
- frame=requestAnimationFrame(step)
+const words=computed(()=>props.locale==='zh'?{choose:'目标函数',iterations:'迭代次数',origin:'初始位置',result:'当前函数值',ready:'调整参数，寻找当前曲面的最低点。',done:'已到达一个全局最小值附近',progress:'正在优化…',again:'尚未收敛到全局最低点，可调整参数或增加迭代次数。',paused:'动画已暂停，请重新开始优化。',diverged:'本次迭代发散，请减小学习率或调整初始位置。',stationary:'已接近局部驻点，试着改变初始位置。',minimum:'全局最低点',steps:'迭代步数',plot:'三维曲面，拖动旋转、滚轮或双指缩放'}:{choose:'Objective function',iterations:'Iterations',origin:'Initial position',result:'Current function value',ready:'Adjust the parameters to find the bottom of this surface.',done:'Reached a global minimum region',progress:'Optimizing…',again:'Not at a global minimum yet. Adjust the parameters or add iterations.',paused:'Animation paused. Start again to finish.',diverged:'This run diverged. Reduce the learning rate or change the starting point.',stationary:'Near a local stationary point. Try a different starting point.',minimum:'Global minima',steps:'Steps',plot:'3D surface; drag to rotate, scroll or pinch to zoom'})
+const formula=computed(()=>renderCopy({formula:`$f(x,y)=${objective.value.formula}$`},'formula'))
+const mesh=computed(()=>{
+  const [a,b]=objective.value.domain,lines:{position:number[],value:number}[][]=[]
+  for(let i=0;i<=24;i++){
+    const fixed=a+(b-a)*i/24
+    for(const swap of [false,true])lines.push(Array.from({length:49},(_,j)=>{
+      const t=a+(b-a)*j/48,position=swap?[t,fixed]:[fixed,t]
+      return {position,value:evaluate(objective.value,position)}
+    }))
+  }
+  return lines
+})
+const floor=computed(()=>Math.min(...objective.value.minima.map(point=>evaluate(objective.value,point))))
+const ceiling=computed(()=>Math.max(...mesh.value.flat().map(point=>point.value)))
+function project(x:number,y:number,z:number){
+  const [a,b]=objective.value.domain,middle=(a+b)/2,half=(b-a)/2
+  const xx=(x-middle)/half,yy=(y-middle)/half,zz=(z-floor.value)/Math.max(.001,ceiling.value-floor.value)*1.5
+  const horizontal=xx*Math.cos(plot.yaw.value)-yy*Math.sin(plot.yaw.value)
+  const depth=xx*Math.sin(plot.yaw.value)+yy*Math.cos(plot.yaw.value)
+  return {x:380+horizontal*150*plot.zoom.value+plot.offsetX.value,y:285+(depth*Math.sin(plot.pitch.value)-zz*Math.cos(plot.pitch.value))*150*plot.zoom.value+plot.offsetY.value}
 }
-function stopAnimation(){cancelAnimationFrame(frame);running.value=false}
-onDeactivated(stopAnimation)
-onBeforeUnmount(stopAnimation)
+const line=(values:{position:number[],value:number}[])=>values.map((value,i)=>{const point=project(value.position[0],value.position[1],value.value);return `${i?'L':'M'} ${point.x} ${point.y}`}).join(' ')
+const grid=computed(()=>mesh.value.map(line))
+const trail=computed(()=>line(run.shown.value))
+const last=computed(()=>run.last.value??{position:[initialX.value,initialY.value],value:objective.value.f(initialX.value,initialY.value)})
+const ball=computed(()=>project(last.value.position[0],last.value.position[1],last.value.value))
+const shadow=computed(()=>project(last.value.position[0],last.value.position[1],floor.value))
+const axes=computed(()=>{
+  const [a,b]=objective.value.domain,origin=project(a,a,floor.value)
+  return [{name:'x',end:project(b+.3,a,floor.value)},{name:'y',end:project(a,b+.3,floor.value)},{name:'f(x,y)',end:project(a,a,ceiling.value)}].map(axis=>({...axis,path:`M ${origin.x} ${origin.y} L ${axis.end.x} ${axis.end.y}`}))
+})
+const base=computed(()=>{const [a,b]=objective.value.domain;return line([[a,a],[a,b],[b,b],[b,a],[a,a]].map(position=>({position,value:floor.value})))})
+const message=computed(()=>{
+  if(run.running.value)return words.value.progress
+  if(run.interrupted.value)return words.value.paused
+  if(run.success.value)return words.value.done
+  if(run.result.value?.status==='diverged')return words.value.diverged
+  if(!run.result.value)return words.value.ready
+  if(Math.hypot(...derivative(objective.value,last.value.position))<.03)return words.value.stationary
+  return words.value.again
+})
+const compact=(value:number)=>Math.abs(value)<1e-7?'0':Number(value.toPrecision(4)).toString()
+function defaults(){run.clear();eta.value=objective.value.rate;iterations.value=objective.value.iterations;[initialX.value,initialY.value]=objective.value.initial}
+watch(selected,()=>{defaults();plot.reset()})
+watch([eta,iterations,initialX,initialY],()=>run.clear())
+function start(){run.start([initialX.value,initialY.value],eta.value,iterations.value)}
 </script>
-
-<template>
-<section class="lab surface-lab">
-  <div class="function">f(x, y) = x² + 2y²</div>
-  <svg viewBox="0 0 760 460" role="img" :aria-label="locale==='zh'?'三维曲面及梯度下降路径':'Three-dimensional surface and gradient descent path'" class="surface">
-    <path d="M 68 355 L 380 235 L 692 355 L 380 475 Z" fill="#fafaf7" opacity=".55"/>
-    <g class="wireframe"><path v-for="(path,index) in grid" :key="index" :d="path" :class="{'major':index%8===0}"/></g>
-    <g class="axes"><path :d="`M 380 355 L ${project(3.7,0,0).x} ${project(3.7,0,0).y}`"/><path :d="`M 380 355 L ${project(0,3.7,0).x} ${project(0,3.7,0).y}`"/><path d="M 380 355 V 35"/></g>
-    <text :x="project(3.85,0,0).x" :y="project(3.85,0,0).y" class="axis-name">x</text><text :x="project(0,3.85,0).x" :y="project(0,3.85,0).y" class="axis-name">y</text><text x="390" y="34" class="axis-name">f(x, y)</text>
-    <path :d="trail" class="trail"/><circle v-for="(point,index) in shown" :key="index" :cx="project(point.x,point.y,point.z).x" :cy="project(point.x,point.y,point.z).y" r="2.3" class="path-point"/>
-    <line :x1="ball.x" :x2="project(last.x,last.y,0).x" :y1="ball.y" :y2="project(last.x,last.y,0).y" class="drop"/>
-    <circle cx="380" cy="355" r="5" class="minimum"/><circle :cx="ball.x" :cy="ball.y" r="8" class="ball"/>
+<template><section class="lab gradient-experiment">
+  <div class="objective-select"><div class="objective-choices"><span>{{words.choose}}</span><div class="function-buttons" role="group" :aria-label="words.choose"><button v-for="item in functions2D" :key="item.id" type="button" :data-function="item.id" :aria-pressed="selected===item.id" :class="{active:selected===item.id}" @click="selected=item.id">{{item.name[locale]}}</button></div></div></div>
+  <div class="function" v-html="formula"></div><p class="description">{{objective.description[locale]}}</p>
+  <PlotToolbar :locale="locale" :zoom="plot.zoom.value" orbit @zoom-in="plot.scale(1.25)" @zoom-out="plot.scale(.8)" @reset="plot.reset"/>
+  <svg ref="svg" viewBox="0 0 760 460" role="img" :aria-label="words.plot" class="surface" @pointerdown="plot.down" @pointermove="plot.move" @pointerup="plot.end" @pointercancel="plot.end" @lostpointercapture="plot.end" @wheel.prevent="plot.wheel">
+    <path :d="base" fill="#f1f4ed" opacity=".8"/>
+    <g class="wireframe"><path v-for="(path,index) in grid" :key="index" :d="path" :class="{major:index%8===0}"/></g>
+    <g class="surface-axes"><path v-for="axis in axes" :key="axis.name" :d="axis.path"/></g><text v-for="axis in axes" :key="axis.name" :x="axis.end.x+7" :y="axis.end.y" class="axis-name">{{axis.name}}</text>
+    <path :d="trail" class="trail"/><circle v-for="(point,index) in run.shown.value" :key="index" :cx="project(point.position[0],point.position[1],point.value).x" :cy="project(point.position[0],point.position[1],point.value).y" r="2.2" class="step"/>
+    <line :x1="ball.x" :y1="ball.y" :x2="shadow.x" :y2="shadow.y" class="drop"/>
+    <circle v-for="(point,index) in objective.minima" :key="`minimum-${index}`" :cx="project(point[0],point[1],objective.f(...point)).x" :cy="project(point[0],point[1],objective.f(...point)).y" r="5" class="minimum"/><circle :cx="ball.x" :cy="ball.y" r="7" class="ball"/>
   </svg>
-  <div class="controls"><label><span v-html="ui('gradientSurface.learningRate',{learningRate:eta.toFixed(2)})"></span><input v-model.number="eta" type="range" min="0.01" max="0.5" step="0.01"/></label><label><span>{{extra.iterations}}: {{iterations}}</span><input v-model.number="iterations" type="range" min="10" max="200" step="10"/></label></div>
-  <div class="initial-caption" v-html="ui('gradientSurface.initialValues',{iterations:`(${initialX.toFixed(1)}, ${initialY.toFixed(1)})`})"></div>
-  <div class="controls initial"><label><span>x₀ = {{initialX.toFixed(1)}}</span><input v-model.number="initialX" type="range" min="-3" max="3" step="0.1"/></label><label><span>y₀ = {{initialY.toFixed(1)}}</span><input v-model.number="initialY" type="range" min="-3" max="3" step="0.1"/></label></div>
-  <div class="lab-toolbar actions"><button type="button" class="primary" :disabled="running" @click="start" v-html="ui('gradientSurface.start')"></button></div>
-  <div class="lab-result result" :class="{success}"><strong>{{extra.result}}: {{last.z.toFixed(5)}}</strong><span>{{running?extra.progress:success?extra.done:points.length?extra.again:extra.ready}}</span></div>
-</section>
-</template>
-
-<style scoped>
-.function{text-align:center;font:italic 22px/1.5 Georgia,serif}.surface{display:block;width:100%;max-height:42vh;margin:0 auto}.wireframe path{fill:none;stroke:#c9cfca;stroke-width:.8;opacity:.8}.wireframe path.major{stroke:#8c9c91;stroke-width:1}.axes path{stroke:#aaa;stroke-width:1;fill:none;stroke-dasharray:4 4}.axis-name{font:italic 14px Georgia,serif;fill:#777}.trail{fill:none;stroke:#d04a48;stroke-width:3;stroke-linejoin:round}.path-point{fill:#d04a48;opacity:.7}.ball{fill:#d04a48;stroke:#fff;stroke-width:2.5}.minimum{fill:#197f57;stroke:white;stroke-width:2}.drop{stroke:#d04a48;stroke-dasharray:3 5;opacity:.5}.controls{display:grid;grid-template-columns:1fr 1fr;gap:24px}.controls label{display:flex;flex-direction:column;gap:9px;font-size:12px;font-variant-numeric:tabular-nums}.controls input{width:100%;accent-color:#197c57}.initial-caption{margin-top:14px;color:#777;font-size:11px}.initial{margin-top:9px}.initial label{font-size:11px}.actions{justify-content:center;margin-top:16px}.primary{background:#1b7654!important;border-color:#1b7654!important;color:white!important}.result{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;border:1px solid #deded8;background:#f6f7f3;padding:13px 16px;border-radius:12px;font-size:12px;line-height:1.5;margin-top:14px}.result span{color:#777}.result.success{background:#eef8f1;border-color:#15845a}.result.success span{color:#13734f}@media(orientation:portrait){.surface{max-height:none}.function{font-size:20px}.controls{gap:14px}}
-</style>
+  <p class="minimum-caption"><span class="minimum-key"></span>{{words.minimum}}: {{objective.minima.map(point=>`(${point.map(compact).join(', ')})`).join(' / ')}}</p>
+  <div class="controls"><label><span v-html="ui('gradientSurface.learningRate',{learningRate:eta.toFixed(3)})"></span><input v-model.number="eta" type="range" min="0.001" :max="MAX_LEARNING_RATE" step="0.001"/></label><label><span>{{words.iterations}}: {{iterations}}</span><input v-model.number="iterations" type="range" min="10" max="600" step="10"/></label></div>
+  <div class="initial-caption">{{words.origin}}: ({{initialX.toFixed(1)}}, {{initialY.toFixed(1)}})</div><div class="controls"><label><span>x₀ = {{initialX.toFixed(1)}}</span><input v-model.number="initialX" type="range" :min="objective.domain[0]" :max="objective.domain[1]" step="0.1"/></label><label><span>y₀ = {{initialY.toFixed(1)}}</span><input v-model.number="initialY" type="range" :min="objective.domain[0]" :max="objective.domain[1]" step="0.1"/></label></div>
+  <div class="lab-toolbar actions"><button type="button" class="primary" :disabled="run.running.value" @click="start" v-html="ui('gradientSurface.start')"></button><button type="button" @click="defaults()">{{locale==='zh'?'重置参数':'Reset parameters'}}</button></div>
+  <div class="lab-result result surface-result" :class="{success:run.success.value}" aria-live="polite"><strong>{{words.result}}: {{compact(last.value)}}</strong><div class="values"><span>(x, y) = ({{last.position.map(compact).join(', ')}})</span><span>{{words.steps}}: {{Math.max(0,run.shown.value.length-1)}}</span></div><span>{{message}}</span></div>
+</section></template>

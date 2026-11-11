@@ -1,55 +1,62 @@
 <script setup lang="ts">
-import {computed,getCurrentInstance,onBeforeUnmount,onDeactivated,ref} from 'vue'
-import {renderCopy} from '../../lib/copy'
-const props=defineProps<{locale:'zh'|'en';copy:Record<string,string>}>()
+import { computed, getCurrentInstance, ref, watch } from 'vue'
+import { renderCopy } from '../../lib/copy'
+import { functions1D, MAX_LEARNING_RATE, derivative, evaluate } from '../../lib/gradient-functions.mjs'
+import { usePlotGesture } from '../../lib/usePlotGesture'
+import { useDescentRun } from '../../lib/useDescentRun'
+import PlotToolbar from './PlotToolbar.vue'
+import './gradient-lab.css'
+const props=defineProps<{locale:'zh'|'en',copy:Record<string,string>}>()
 const emit=defineEmits<{complete:[]}>()
-const eta=ref(0.04),iterations=ref(100),initialX=ref(-2),running=ref(false),started=ref(false),visible=ref(0)
-const path=ref<{x:number;y:number}[]>([])
-let frame=0
-const f=(x:number)=>x**4-4*x*x-x+1
-const gradient=(x:number)=>4*x**3-8*x-1
-const minimum=1.4729976011,leftMinimum=-1.3469974085
+const selected=ref(functions1D[0].id)
+const objective=computed(()=>functions1D.find(item=>item.id===selected.value)!)
+const eta=ref(objective.value.rate),iterations=ref(objective.value.iterations),initialX=ref(objective.value.initial[0])
+const plot=usePlotGesture('pan'),{svg}=plot
+const run=useDescentRun(()=>objective.value,()=>emit('complete'))
 const ui=(key:string,params:Record<string,string|number>={})=>renderCopy(props.copy,key,params)
+const extra=computed(()=>props.locale==='zh'?{choose:'目标函数',minimum:'全局最低点',paused:'动画已暂停，请重新开始优化。',diverged:'本次迭代发散，请减小学习率或改变初始位置。',stationary:'已接近局部驻点，但尚未到达全局最低点。',steps:'迭代步数',plot:'函数图像，可拖动平移与缩放'}:{choose:'Objective function',minimum:'Global minimum',paused:'Animation paused. Start again to finish.',diverged:'This run diverged. Lower the learning rate or change the starting position.',stationary:'Near a local stationary point, but not the global minimum.',steps:'Steps',plot:'Function plot; drag to pan and zoom'})
+const formula=computed(()=>renderCopy({formula:`$f(x)=${objective.value.formula}$`},'formula'))
 const clipId=`gradient1d-${getCurrentInstance()?.uid??0}`
-const sx=(x:number)=>58+(x+3)/6*636
-const sy=(y:number)=>332-(y+6)/51*284
-const curve=Array.from({length:241},(_,i)=>{const x=-3+i/40;return `${i?'L':'M'} ${sx(x)} ${sy(f(x))}`}).join(' ')
-const shown=computed(()=>path.value.slice(0,visible.value))
-const trail=computed(()=>shown.value.filter(p=>Number.isFinite(p.x)&&Number.isFinite(p.y)).map((p,i)=>`${i?'L':'M'} ${sx(p.x)} ${sy(p.y)}`).join(' '))
-const last=computed(()=>shown.value.at(-1))
-const success=computed(()=>!!last.value&&Math.abs(last.value.x-minimum)<0.05&&Math.abs(gradient(last.value.x))<0.1)
-const comparison=computed(()=>{if(!last.value)return '';if(success.value)return ui('gradient1d.globalMinimum',{minimumValue:f(minimum).toFixed(2)});if(Math.abs(last.value.x-leftMinimum)<0.05&&Math.abs(gradient(last.value.x))<0.1)return ui('gradient1d.localMinimum',{minimumValue:f(leftMinimum).toFixed(2)});return ui('gradient1d.notConverged')})
-function start(){
-  cancelAnimationFrame(frame);let x=initialX.value;const points=[{x,y:f(x)}]
-  for(let i=0;i<iterations.value;i++){const next=x-eta.value*gradient(x);if(!Number.isFinite(next)||Math.abs(next)>20)break;x=next;points.push({x,y:f(x)});if(Math.abs(gradient(x))<1e-8)break}
-  path.value=points;visible.value=1;started.value=true;running.value=true;let began=0
-  const step=(time:number)=>{if(!began)began=time;visible.value=Math.min(points.length,1+Math.floor((time-began)/1400*(points.length-1)));if(visible.value<points.length)frame=requestAnimationFrame(step);else{running.value=false;if(success.value)emit('complete')}}
-  frame=requestAnimationFrame(step)
-}
-function reset(){cancelAnimationFrame(frame);running.value=false;started.value=false;path.value=[];visible.value=0;initialX.value=-2;eta.value=0.04;iterations.value=100}
-function stopAnimation(){cancelAnimationFrame(frame);running.value=false}
-onDeactivated(stopAnimation)
-onBeforeUnmount(stopAnimation)
+const yRange=computed(()=>{
+  const [a,b]=objective.value.domain,values=Array.from({length:181},(_,i)=>objective.value.f(a+(b-a)*i/180))
+  const low=Math.min(...values),high=Math.max(...values),pad=Math.max(.2,(high-low)*.08)
+  return [low-pad,high+pad]
+})
+const sx=(x:number)=>380+(58+(x-objective.value.domain[0])/(objective.value.domain[1]-objective.value.domain[0])*636-380)*plot.zoom.value+plot.offsetX.value
+const sy=(y:number)=>205+(332-(y-yRange.value[0])/(yRange.value[1]-yRange.value[0])*284-205)*plot.zoom.value+plot.offsetY.value
+const inverseX=(x:number)=>objective.value.domain[0]+((x-380-plot.offsetX.value)/plot.zoom.value+380-58)/636*(objective.value.domain[1]-objective.value.domain[0])
+const inverseY=(y:number)=>yRange.value[0]+(332-((y-205-plot.offsetY.value)/plot.zoom.value+205))/284*(yRange.value[1]-yRange.value[0])
+const xTicks=computed(()=>Array.from({length:7},(_,i)=>inverseX(58+i*106)))
+const yTicks=computed(()=>Array.from({length:6},(_,i)=>inverseY(332-i*56.8)))
+const compact=(value:number)=>Math.abs(value)<1e-9?'0':Number(value.toPrecision(3)).toString()
+const curve=computed(()=>Array.from({length:361},(_,i)=>{const x=inverseX(58+i*636/360);return `${i?'L':'M'} ${sx(x)} ${sy(objective.value.f(x))}`}).join(' '))
+const trail=computed(()=>run.shown.value.map((point,i)=>`${i?'L':'M'} ${sx(point.position[0])} ${sy(point.value)}`).join(' '))
+const last=computed(()=>run.last.value??{position:[initialX.value],value:objective.value.f(initialX.value)})
+const comparison=computed(()=>{
+  if(run.interrupted.value)return extra.value.paused
+  if(run.success.value)return ui('gradient1d.globalMinimum',{minimumValue:evaluate(objective.value,objective.value.minima[0]).toFixed(2)})
+  if(run.result.value?.status==='diverged')return extra.value.diverged
+  if(Math.hypot(...derivative(objective.value,last.value.position))<.03)return extra.value.stationary
+  return ui('gradient1d.notConverged')
+})
+function defaults(){run.clear();eta.value=objective.value.rate;iterations.value=objective.value.iterations;initialX.value=objective.value.initial[0]}
+watch(selected,()=>{defaults();plot.reset()})
+watch([eta,iterations,initialX],()=>run.clear())
+function start(){run.start([initialX.value],eta.value,iterations.value)}
 </script>
-
-<template>
-<section class="lab gradient-lab">
-  <div class="function">f(x) = x⁴ − 4x² − x + 1</div>
-  <p class="description" v-html="ui('gradient1d.description')"></p>
-  <div class="parameters"><label><span v-html="ui('gradient1d.learningRate',{learningRate:eta.toFixed(2)})"></span><input v-model.number="eta" type="range" min="0.01" max="0.5" step="0.01"/></label><label><span v-html="ui('gradient1d.iterations',{iterations})"></span><input v-model.number="iterations" type="range" min="10" max="500" step="10"/></label><label><span v-html="ui('gradient1d.initialPosition',{initialX:initialX.toFixed(1)})"></span><input v-model.number="initialX" type="range" min="-3" max="3" step="0.1"/></label></div>
-  <div class="lab-toolbar actions"><button type="button" class="primary" :disabled="running" @click="start" v-html="ui('gradient1d.start')"></button><button type="button" @click="reset" v-html="ui('gradient1d.reset')"></button></div>
-  <svg viewBox="0 0 760 380" role="img" :aria-label="locale==='zh'?'四次函数与梯度下降轨迹':'Quartic function and gradient descent trajectory'" class="plot">
+<template><section class="lab gradient-experiment">
+  <div class="objective-select"><div class="objective-choices"><span>{{extra.choose}}</span><div class="function-buttons" role="group" :aria-label="extra.choose"><button v-for="item in functions1D" :key="item.id" type="button" :data-function="item.id" :aria-pressed="selected===item.id" :class="{active:selected===item.id}" @click="selected=item.id">{{item.name[locale]}}</button></div></div></div>
+  <div class="function" v-html="formula"></div><p class="description">{{objective.description[locale]}}</p>
+  <div class="parameters"><label><span v-html="ui('gradient1d.learningRate',{learningRate:eta.toFixed(3)})"></span><input v-model.number="eta" type="range" min="0.001" :max="MAX_LEARNING_RATE" step="0.001"/></label><label><span v-html="ui('gradient1d.iterations',{iterations})"></span><input v-model.number="iterations" type="range" min="10" max="600" step="10"/></label><label><span v-html="ui('gradient1d.initialPosition',{initialX:initialX.toFixed(1)})"></span><input v-model.number="initialX" type="range" :min="objective.domain[0]" :max="objective.domain[1]" step="0.1"/></label></div>
+  <div class="lab-toolbar actions"><button type="button" class="primary" :disabled="run.running.value" @click="start" v-html="ui('gradient1d.start')"></button><button type="button" @click="defaults()" v-html="ui('gradient1d.reset')"></button></div>
+  <PlotToolbar :locale="locale" :zoom="plot.zoom.value" @zoom-in="plot.scale(1.25)" @zoom-out="plot.scale(.8)" @reset="plot.reset"/>
+  <svg ref="svg" viewBox="0 0 760 380" role="img" :aria-label="extra.plot" class="plot" @pointerdown="plot.down" @pointermove="plot.move" @pointerup="plot.end" @pointercancel="plot.end" @lostpointercapture="plot.end" @wheel.prevent="plot.wheel">
     <defs><clipPath :id="clipId"><rect x="58" y="38" width="636" height="294"/></clipPath></defs>
-    <g class="grid"><template v-for="x in [-3,-2,-1,0,1,2,3]" :key="x"><line :x1="sx(x)" :x2="sx(x)" y1="38" y2="332"/><text :x="sx(x)" y="354" text-anchor="middle">{{x}}</text></template><template v-for="y in [0,10,20,30,40]" :key="y"><line x1="58" x2="694" :y1="sy(y)" :y2="sy(y)"/><text x="47" :y="sy(y)+4" text-anchor="end">{{y}}</text></template></g>
-    <path :d="`M 58 38 V 332 H 694`" class="axes"/>
-    <g :clip-path="`url(#${clipId})`"><path :d="curve" class="curve"/><path :d="trail" class="trail"/><circle v-for="(point,i) in shown" :key="i" :cx="sx(point.x)" :cy="sy(point.y)" r="2.5" class="step"/><circle :cx="sx(last?.x??initialX)" :cy="sy(last?.y??f(initialX))" r="7" class="ball"/></g>
-    <circle :cx="sx(minimum)" :cy="sy(f(minimum))" r="4" class="minimum"/>
+    <g class="grid"><template v-for="(x,i) in xTicks" :key="i"><line :x1="sx(x)" :x2="sx(x)" y1="38" y2="332"/><text :x="sx(x)" y="354" text-anchor="middle">{{compact(x)}}</text></template><template v-for="(y,i) in yTicks" :key="i"><line x1="58" x2="694" :y1="sy(y)" :y2="sy(y)"/><text x="47" :y="sy(y)+4" text-anchor="end">{{compact(y)}}</text></template></g>
+    <path d="M 58 38 V 332 H 694" class="axes"/>
+    <g :clip-path="`url(#${clipId})`"><path :d="curve" class="curve"/><path :d="trail" class="trail"/><circle v-for="(point,i) in run.shown.value" :key="i" :cx="sx(point.position[0])" :cy="sy(point.value)" r="2.5" class="step"/><circle v-for="(point,i) in objective.minima" :key="`minimum-${i}`" :cx="sx(point[0])" :cy="sy(objective.f(point[0]))" r="5" class="minimum"/><circle :cx="sx(last.position[0])" :cy="sy(last.value)" r="7" class="ball"/></g>
     <text x="707" y="335" class="axis-name">x</text><text x="35" y="25" class="axis-name">f(x)</text>
   </svg>
-  <div class="lab-result result" :class="{success:success&&!running}"><strong v-html="ui('gradient1d.resultTitle')"></strong><p v-if="!started" v-html="ui('gradient1d.resultEmpty')"></p><template v-else-if="last"><div class="values"><span v-html="ui('gradient1d.finalPosition',{finalX:last.x.toFixed(4)})"></span><span v-html="ui('gradient1d.finalValue',{finalValue:last.y.toFixed(4)})"></span></div><p v-if="!running" v-html="comparison"></p><p v-else>{{locale==='zh'?'正在计算下降轨迹…':'Tracing gradient descent…'}}</p></template></div>
-</section>
-</template>
-
-<style scoped>
-.function{text-align:center;font:italic 22px/1.4 Georgia,serif;letter-spacing:.025em}.description{text-align:center;color:#888;font-size:11px;line-height:1.6;margin:7px 0 19px}.parameters{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.parameters label{display:flex;flex-direction:column;gap:10px;font-size:12px}.parameters input{width:100%;accent-color:#1c805b}.actions{margin:18px 0 0;justify-content:center}.primary{background:#1b7654!important;color:white!important;border-color:#1b7654!important}.plot{width:100%;display:block;max-height:38vh}.grid line{stroke:#e8e8e8}.grid text{font:11px monospace;fill:#969696}.axes{stroke:#888;fill:none}.curve{stroke:#222;fill:none;stroke-width:2.4}.trail{stroke:#d14c49;fill:none;stroke-width:2}.step{fill:#d14c49;opacity:.5}.ball{fill:#d14c49;stroke:white;stroke-width:2}.minimum{fill:#17835c}.axis-name{font:italic 13px Georgia,serif;fill:#777}.result{border:1px solid #e3e3df;background:#f7f7f4;border-radius:12px;padding:13px 16px;font-size:12px;line-height:1.6}.result strong{font-size:12px}.result p{margin:7px 0 0}.result.success{border-color:#19865d;background:#f0f8f3}.result.success p{color:#13764f}.values{display:flex;flex-wrap:wrap;gap:8px 24px;margin-top:7px;font-variant-numeric:tabular-nums}@media(orientation:portrait){.plot{max-height:none}.parameters{gap:12px}.parameters label{font-size:11px}.function{font-size:20px}}
-</style>
+  <p class="minimum-caption"><span class="minimum-key"></span>{{extra.minimum}}: x = {{objective.minima.map(point=>compact(point[0])).join(', ')}}</p>
+  <div class="lab-result result" :class="{success:run.success.value}" aria-live="polite"><strong v-html="ui('gradient1d.resultTitle')"></strong><p v-if="!run.result.value" v-html="ui('gradient1d.resultEmpty')"></p><template v-else><div class="values"><span v-html="ui('gradient1d.finalPosition',{finalX:compact(last.position[0])})"></span><span v-html="ui('gradient1d.finalValue',{finalValue:compact(last.value)})"></span><span>{{extra.steps}}: {{Math.max(0,run.shown.value.length-1)}}</span></div><p v-if="!run.running.value" v-html="comparison"></p><p v-else>{{locale==='zh'?'正在计算下降轨迹…':'Tracing gradient descent…'}}</p></template></div>
+</section></template>

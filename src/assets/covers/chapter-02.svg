@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="300"
+   height="130"
+   viewBox="0 0 300 130"
+   fill="none"
+   color="#20211f"
+   version="1.1"
+   id="svg2"
+   sodipodi:docname="chapter-02.svg"
+   inkscape:version="1.4.4 (dcaf3e7, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="namedview2"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="4.09"
+     inkscape:cx="96.210268"
+     inkscape:cy="113.32518"
+     inkscape:window-width="2560"
+     inkscape:window-height="1566"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <title
+     id="title1">Gradient descent chapter cover</title>
+  <!-- Transparent canvas; groups and individual shapes are editable. -->
+  <g
+     id="baseline"
+     stroke="#20211f"
+     stroke-dasharray="2 5">
+    <path
+       d="M20 116H280"
+       id="path2" />
+  </g>
+  <line
+     id="connection-2-2-1"
+     x1="227.23662"
+     y1="108.785"
+     x2="250.95819"
+     y2="79.145416"
+     stroke="#20211f"
+     stroke-width="1.78315"
+     stroke-opacity="0.68"
+     data-from="circle9-8-5"
+     data-to="circle9-22"
+     style="fill:none;stroke:#8e8e8e;stroke-width:1.3;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:0.795407" />
+  <line
+     id="connection-2-2-1-5"
+     x1="251.21983"
+     y1="78.440536"
+     x2="279.20956"
+     y2="15.926435"
+     stroke="#20211f"
+     stroke-width="1.78315"
+     stroke-opacity="0.68"
+     data-from="circle9-8-5"
+     data-to="circle9-22"
+     style="fill:none;stroke:#8e8e8e;stroke-width:1.5;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:0.795407" />
+  <line
+     id="connection-2-2-1-9"
+     x1="197.89528"
+     y1="111.79217"
+     x2="227.06128"
+     y2="109.32346"
+     stroke="#20211f"
+     stroke-width="0.903868"
+     stroke-opacity="0.68"
+     data-from="circle9-8-5"
+     data-to="circle9-22"
+     style="fill:none;stroke:#8e8e8e;stroke-width:1.2;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:0.795407" />
+  <line
+     id="connection-2-2-1-9-8"
+     x1="197.70366"
+     y1="111.79195"
+     x2="210.49675"
+     y2="115.85538"
+     stroke="#20211f"
+     stroke-width="0.903868"
+     stroke-opacity="0.68"
+     data-from="circle9-8-5"
+     data-to="circle9-22"
+     style="fill:none;stroke:#8e8e8e;stroke-width:1;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:0.795407" />
+  <path
+     d="M 20,22 C 60,180 111.39108,47.275304 145.71898,64.322169 179.43413,81.064752 214.49506,197.14322 280,15"
+     id="path1"
+     style="fill:none;stroke:#20211f"
+     sodipodi:nodetypes="csc" />
+  <g
+     id="descent-ball"
+     fill="#19834d"
+     transform="translate(-8.4714508,11.756298)">
+    <circle
+       cx="219"
+       cy="98"
+       r="6"
+       id="circle2" />
+  </g>
+</svg>
