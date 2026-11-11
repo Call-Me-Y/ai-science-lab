@@ -70,7 +70,7 @@ The course starts from "model, inputs and outputs, training and evaluation", and
 <table>
   <tr>
     <td width="50%" align="center" valign="top">
-      <p><strong>See the move scores in the Gomoku AI's eyes</strong></p>
+      <p><strong>The move scores in the Gomoku AI's eyes</strong></p>
       <img src="screenshots/en_mk.jpg" alt="Gomoku score visualization: candidate move scores and the black-and-white game" width="300">
     </td>
     <td width="50%" align="center" valign="top">
