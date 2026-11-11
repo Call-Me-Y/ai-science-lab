@@ -1,5 +1,7 @@
 # AI Science Lab · AI 科学实验馆
 
+**English** | [简体中文](README-zh.md)
+
 > From a single data point to a neural network.
 
 AI Science Lab is an interactive science-outreach project for beginners learning AI. It strings linear regression, gradient descent, neural networks, and convolutional neural networks into a page-by-page guided tour: read a piece of narration, then drag data points, tune parameters, place stones, or draw—watching how the algorithm produces its result.
